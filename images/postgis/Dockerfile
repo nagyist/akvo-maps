@@ -32,7 +32,9 @@ RUN service postgresql start && \
     echo "SELECT AddGeometryColumn('liberia', 'geom', 4326, 'point', 2);" \
          "UPDATE liberia SET geom = " \
          "  ST_SetSRID(ST_MakePoint(longitude::float8, latitude::float8), 4326)" \
-         " WHERE longitude != '' and latitude != ''" \
+         " WHERE longitude != '' and latitude != '';" \
+         "CREATE INDEX ON liberia USING GIST (geom);" \
          | psql --set ON_ERROR_STOP=1
  
-CMD service postgresql start && tail -f /var/log/postgresql/postgresql-9.5-main.log
+# Start backend
+CMD su postgres -c sh -c "/usr/lib/postgresql/9.5/bin/postgres -D /var/lib/postgresql/9.5/main/ -c config_file=/etc/postgresql/9.5/main/postgresql.conf"
