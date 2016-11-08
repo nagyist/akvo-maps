@@ -1,11 +1,11 @@
 build:
-	docker build -t akvo-maps .
+	docker build -t akvo-postgis .
 
 start:
-	docker run --name akvo-maps -d akvo-maps
+	docker run --name akvo-postgis -d akvo-postgis
 
 stop:
-	docker rm -f akvo-maps
+	docker rm -f akvo-postgis
 
 restart:
 	$(MAKE) stop
