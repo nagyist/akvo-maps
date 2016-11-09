@@ -1,7 +1,7 @@
 FROM akvo-base
 
 RUN apt-get update && apt-get -y install \
-  postgresql-9.5-postgis-2.2
+  postgresql-9.5-postgis-2.2 curl
 
 EXPOSE 5432
 
@@ -13,6 +13,9 @@ RUN service postgresql start && \
     # Create a template_gis database \
     echo "create database template_gis;" | su postgres -c psql && \
     echo "create extension postgis;" | PGDATABASE=template_gis su postgres -c psql && \
+    curl --silent -Lo- \
+    https://github.com/CartoDB/Windshaft/raw/master/test/sql/CDB_QueryTables.sql \
+    | PGDATABASE=template_gis sh -c "su postgres -c psql" && \
     # Create an akvo user \
     echo "create user akvo with password 'akvo';" | su postgres -c psql && \
     # Create an akvo database owned by akvo \
@@ -35,6 +38,6 @@ RUN service postgresql start && \
          " WHERE longitude != '' and latitude != '';" \
          "CREATE INDEX ON liberia USING GIST (geom);" \
          | psql --set ON_ERROR_STOP=1
- 
+
 # Start backend
 CMD su postgres -c sh -c "/usr/lib/postgresql/9.5/bin/postgres -D /var/lib/postgresql/9.5/main/ -c config_file=/etc/postgresql/9.5/main/postgresql.conf"
