@@ -16,6 +16,9 @@ RUN service postgresql start && \
     curl --silent -Lo- \
     https://github.com/CartoDB/Windshaft/raw/master/test/sql/CDB_QueryTables.sql \
     | PGDATABASE=template_gis sh -c "su postgres -c psql" && \
+    curl --silent -Lo- \
+    https://github.com/CartoDB/Windshaft/raw/master/test/sql/CDB_QueryStatements.sql \
+    | PGDATABASE=template_gis sh -c "su postgres -c psql" && \
     # Create an akvo user \
     echo "create user akvo with password 'akvo';" | su postgres -c psql && \
     # Create an akvo database owned by akvo \
