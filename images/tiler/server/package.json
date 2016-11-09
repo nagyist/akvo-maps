@@ -1,0 +1,22 @@
+{
+    "name": "akvomaps",
+    "version": "0.0.0",
+    "main": "./server.js",
+    "description": "A node.js based map tile server based on Windsahft",
+    "url": "https://github.com/akvo/akvo-maps",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/akvo/akvo-maps.git"
+    },
+    "author": "Sandro Santilli <strk@kbt.io>",
+    "dependencies": {
+        "windshaft": "~2.6.2",
+        "express": "~2.5.11",
+        "debug": "~2.2.0",
+        "mapnik": "https://s3.amazonaws.com/cartodb-node-binary/mapnik/v1.4.15-cdb10/1.4.15-cdb10.tgz",
+        "redis-mpool": "~0.4.0",
+        "step": "~0.0.6",
+        "underscore": "~1.6.0"
+    },
+    "engine": { "node": ">= 0.10 < 0.11" }
+}
