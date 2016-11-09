@@ -14,6 +14,9 @@ This repository contains 3 docker images:
 You can build all images with a "make build" call from top-level dir.
 Following that, you can start the system with "make start", and
 instructions will be given in the output of the start command as
-for how to test the server
+for how to test the server.
 
 More information can be found in subdirectories.
+
+Windshaft API documentation can be found on
+https://github.com/CartoDB/Windshaft/blob/master/doc/Multilayer-API.md
