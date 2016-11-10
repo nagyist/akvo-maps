@@ -5,6 +5,7 @@ start:
 	docker run --name akvo-windshaft \
     --link akvo-postgis \
     --link akvo-redis \
+    $$AKVO_DOCKER_WINDSHAFT_OPTIONS \
     -d \
     akvo-windshaft
 	@cd ../../ && \
@@ -18,3 +19,9 @@ stop:
 restart:
 	$(MAKE) stop
 	$(MAKE) start
+
+# This is a trick to live-modify and test code in the docker
+# Path is the one working on my machine --strk;
+restart-debug:
+	AKVO_DOCKER_WINDSHAFT_OPTIONS="--volume /usr/src/cartodb/windshaft/windshaft/lib:/tiler/node_modules/windshaft/lib" \
+  $(MAKE) restart
