@@ -47,4 +47,4 @@ ENV PGUSER akvo
 ENV PGPASSWORD akvo
 
 # Start server
-CMD cd /tiler && node server.js
+CMD cd /tiler && while :; do node server.js; sleep 10; done
