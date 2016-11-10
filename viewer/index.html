@@ -40,8 +40,12 @@
 
               var baseURL = $('#baseurl').val() + '/' + token;
               var tileLayer = new L.tileLayer(baseURL + '/{z}/{x}/{y}.png');
+              var osm = new L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+	                                {attribution: 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'});
 
+              map.addLayer(osm);
               map.addLayer(tileLayer);
+              layers.push(osm);
               layers.push(tileLayer);
 
               metadataLayers.forEach(function(layer, layerIndex) {
