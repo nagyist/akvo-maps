@@ -11,9 +11,7 @@ var ENV = 'development';
 var PORT = 4000;
 
 // set environment specific variables
-global.settings     = require('../config/settings');
 global.environment  = require('../config/environments/' + ENV);
-_.extend(global.settings, global.environment);
 
 var config = {
     base_url: '/:dbname/table/:table',
@@ -26,6 +24,13 @@ var config = {
     req2params: function(req, callback){
         // this is in case you want to test sql parameters eg ...png?sql=select * from my_table limit 10
         req.params =  _.extend({}, req.params);
+
+        // Set PostgreSQL setting (from environment)
+        req.params.dbhost = global.environment.postgres.host;
+        req.params.dbuser = global.environment.postgres.user;
+        req.params.dbpassword = global.environment.postgres.password;
+        req.params.dbport = global.environment.postgres.port;
+
         _.extend(req.params, req.query);
 
         // send the finished req object on
