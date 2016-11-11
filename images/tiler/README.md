@@ -6,7 +6,6 @@ Use "make start" to start the image, then find out the IP address
 of the image with something like this:
 
 ```sh
-TIP=`docker inspect akvo-windshaft | grep '"IPAddress":' | head -1 | sed 's/.*: "//;s/".*//'`
+TIP=`docker inspect akvo-tiler | grep '"IPAddress":' | head -1 | sed 's/.*: "//;s/".*//'`
 firefox ../../viewer/index.html?url=http://${TIP}:4000/akvo/layergroup
 ```
-
