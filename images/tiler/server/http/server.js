@@ -1,5 +1,6 @@
 var debug = require('debug')('windshaft:server');
 var express = require('express');
+var bodyParser = require('body-parser');
 var RedisPool = require('redis-mpool');
 var _ = require('underscore');
 var mapnik = require('mapnik');
@@ -220,13 +221,14 @@ function bootstrap(opts) {
     var app;
     if (_.isObject(opts.https)) {
         // use https if possible
-        app = express.createServer(opts.https);
+        app = express(opts.https);
     } else {
         // fall back to http by default
-        app = express.createServer();
+        app = express();
     }
+
     app.enable('jsonp callback');
-    app.use(express.bodyParser());
+    app.use(bodyParser.json());
 
     if (opts.log_format) {
         var loggerOpts = {
