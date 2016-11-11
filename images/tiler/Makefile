@@ -20,8 +20,15 @@ restart:
 	$(MAKE) stop
 	$(MAKE) start
 
+logs:
+	docker logs -f akvo-tiler
+
 # This is a trick to live-modify and test code in the docker
 # Path is the one working on my machine --strk;
+
 restart-debug:
-	AKVO_DOCKER_WINDSHAFT_OPTIONS="--volume /usr/src/cartodb/windshaft/windshaft/lib:/tiler/node_modules/windshaft/lib" \
+	O="--volume /usr/src/cartodb/windshaft/windshaft/lib:/tiler/node_modules/windshaft/lib"; \
+	O="$$O --volume $${PWD}/server/server.js:/tiler/server/server.js"; \
+	O="$$O --volume $${PWD}/server/http:/tiler/server/http"; \
+	AKVO_DOCKER_WINDSHAFT_OPTIONS="$$O" \
   $(MAKE) restart
