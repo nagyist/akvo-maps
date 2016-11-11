@@ -18,3 +18,12 @@ start:
 restart:
 	$(MAKE) stop
 	$(MAKE) start
+
+tiler-logs:
+	docker logs -f akvo-tiler
+
+postgis-logs:
+	docker logs -f akvo-postgis
+
+redis-logs:
+	docker logs -f akvo-redis

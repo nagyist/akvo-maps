@@ -32,7 +32,7 @@ RUN npm --version
 # Build server
 
 ADD server /tiler
-RUN cd /tiler && make
+RUN cd /tiler && rm -rf node_modules && make
 
 # Add config
 
