@@ -4,8 +4,6 @@ module.exports.postgres = {
     password: 'akvo',
     host: 'akvo-postgis',
     port: 5432,
-    geometry_field: 'geom', // TODO: drop
-    srid: 4326 // TODO: drop
 };
 module.exports.millstone = {
     cache_basedir: '/tmp/windshaft-dev/millstone'

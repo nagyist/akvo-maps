@@ -21,9 +21,10 @@ var MapController = require('./controllers/map');
 //        },
 //        grainstore: {
 //          datasource: {
-//            user:'postgres', host: '127.0.0.1',
-//            port: 5432, geometry_field: 'the_geom_webmercator',
-//            srid: 3857
+//            user:'postgres',
+//            password:'secret',
+//            host: '127.0.0.1',
+//            port: 5432
 //          }
 //        }, //see grainstore npm for other options
 //        mapnik: {
