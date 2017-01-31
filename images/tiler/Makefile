@@ -2,6 +2,7 @@ build:
 	docker build -t akvo-tiler .
 
 start:
+	@echo "AKVO_DOCKER_WINDSHAFT_OPTIONS=$$AKVO_DOCKER_WINDSHAFT_OPTIONS"
 	docker run --name akvo-tiler \
     --link akvo-postgis \
     --link akvo-redis \
@@ -28,9 +29,9 @@ logs:
 
 restart-debug:
 	O="--volume /usr/src/cartodb/windshaft/windshaft/lib:/tiler/node_modules/windshaft/lib"; \
-	O="$$O --volume $${PWD}/server/server.js:/tiler/server/server.js"; \
-	O="$$O --volume $${PWD}/server/http:/tiler/server/http"; \
-	O="$$O --volume $${PWD}/config:/tiler/config"; \
+	O="$$O --volume $${PWD}/server/server.js:/tiler/server.js"; \
+	O="$$O --volume $${PWD}/server/http:/tiler/http"; \
+	O="$$O --volume $${PWD}/config:/config"; \
 	O="$$O -p 4000:4000"; \
 	AKVO_DOCKER_WINDSHAFT_OPTIONS="$$O" \
   $(MAKE) restart
