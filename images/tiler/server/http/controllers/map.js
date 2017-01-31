@@ -63,6 +63,7 @@ MapController.prototype.attributes = function(req, res) {
                 var errMsg = err.message ? ( '' + err.message ) : ( '' + err );
                 self._app.sendError(res, { errors: [errMsg] }, self._app.findStatusCode(err), 'ATTRIBUTES', err);
             } else {
+                res.set('Cache-Control', 'max-age=31536000');
                 res.send(tile, 200);
             }
         }
@@ -172,6 +173,7 @@ MapController.prototype.finalizeGetTileOrGrid = function(err, req, res, tile, he
 
         this._app.sendError(res, { errors: ['' + errMsg] }, this._app.findStatusCode(err), 'TILE', err);
     } else {
+        res.set('Cache-Control', 'max-age=31536000');
         res.send(tile, headers, 200);
     }
 };
