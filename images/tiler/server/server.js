@@ -23,8 +23,8 @@ var config = {
     enable_cors: true,
     req2params: function(req, callback){
 
-        console.log("req2param received req: ", req);
-        console.dir(req);
+        //console.log("req2param received req: ", req);
+        //console.dir(req);
 
         // this is in case you want to test sql parameters eg ...png?sql=select * from my_table limit 10
         req.params =  _.extend({}, req.params);
