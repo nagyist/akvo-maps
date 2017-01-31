@@ -37,6 +37,16 @@ var config = {
 
         _.extend(req.params, req.query);
 
+        if ( req.params.token )
+        {
+          // Separate cache buster from token
+          var tksplit = req.params.token.split(':');
+          req.params.token = tksplit[0];
+          if ( tksplit.length > 1 ) {
+              req.params.cache_buster = tksplit[1];
+          }
+        }
+
         // send the finished req object on
         callback(null,req);
     }

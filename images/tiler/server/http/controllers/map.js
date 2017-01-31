@@ -1,6 +1,9 @@
+const util = require('util')
 var assert = require('assert');
 var step = require('step');
 var windshaft = require('windshaft/lib/windshaft');
+var PSQL = require('windshaft/node_modules/cartodb-psql'); // dependency of windshaft
+var _ = require('underscore');
 
 var MapConfig = windshaft.model.MapConfig;
 var DummyMapConfigProvider = require('windshaft/lib/windshaft/models/providers/dummy_mapconfig_provider');
@@ -71,6 +74,74 @@ MapController.prototype.attributes = function(req, res) {
 
 };
 
+MapController.prototype.addLastModifiedTimestamp = function(req, response, cb) {
+  var self = this;
+
+  var known_tables = [];
+  var client;
+
+  step (
+        function extractKnownTablesFromMetadata() {
+          for (var i=0; i<response.metadata.layers.length; ++i) {
+            var lyr = response.metadata.layers[i];
+            var stats = lyr.meta.stats;
+            for (var j=0; j<stats.length; ++j) {
+              var s = stats[j];
+              //console.log("XXXX layer " + i + " stat " + j + " is " + util.inspect(s, false, null));
+              if ( s.type != 'table' ) continue;
+              known_tables[s.name] = 1;
+            }
+          }
+
+          known_tables = _.keys(known_tables);
+          console.log("XXXX known_tables: ", known_tables);
+          if ( known_tables.length == 0 ) {
+            cb(null, response); // nothing more to do here
+            return;
+          }
+          return known_tables;
+        },
+        function getPGClient(err) {
+            assert.ifError(err);
+            var dbParams = {
+              user: req.params.dbuser,
+              pass: req.params.dbpassword,
+              host: req.params.dbhost,
+              port: req.params.dbport,
+              dbname: req.params.dbname
+            }
+
+            //console.log("XXX dbParams: ", util.inspect(dbParams));
+
+            return new PSQL(dbParams);
+        },
+        function queryLastModified(err, c) {
+            assert.ifError(err);
+
+            client = c;
+            var sql = "";
+            for (var i=0; i<known_tables.length; ++i) {
+              var table = known_tables[i];
+              if ( sql != "" ) sql += " UNION ALL "
+              sql += "SELECT max(last_updated) FROM " + table;
+            }
+            sql = "SELECT max(max) FROM ( " + sql + " ) foo";
+            client.query(sql, this);
+        },
+        function readSqlResult(err, result) {
+            assert.ifError(err);
+
+            //console.log("XXX result is: " + util.inspect(result));
+            response.layergroupid = response.layergroupid + ":" + lastUpdate;
+            return null;
+        },
+        function finish(err) {
+            if ( err ) console.log("XXX LastModified fetch error: " + err)
+            cb(null, response);
+        }
+  )
+}
+
 MapController.prototype.create = function(req, res, prepareConfigFn) {
     var self = this;
 
@@ -88,7 +159,13 @@ MapController.prototype.create = function(req, res, prepareConfigFn) {
                 mapConfig, req.params, new DummyMapConfigProvider(mapConfig, req.params), this
             );
         },
+        function addLastModifiedTimestamp(err, response) {
+            assert.ifError(err);
+            //console.log("XXXX(pre) response is: ", util.inspect(response, false, null));
+            return self.addLastModifiedTimestamp(req, response, this);
+        },
         function finish(err, response){
+            //console.log("XXXX(post) response is: ", util.inspect(response, false, null));
             if (err) {
                 self._app.sendError(res, { errors: [ err.message ] }, self._app.findStatusCode(err), 'LAYERGROUP', err);
             } else {
