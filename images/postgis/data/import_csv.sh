@@ -16,5 +16,6 @@ echo "CREATE TABLE \"${TABLE}\" ( ${FIELDS} );"
 echo "COPY \"${TABLE}\" FROM stdin DELIMITER ',';"
 tail -n +2 ${INPUT}
 echo "\\."
+echo "ALTER TABLE \"${TABLE}\" ADD last_updated TIMESTAMPTZ DEFAULT NOW();"
 echo "COMMIT;"
 
