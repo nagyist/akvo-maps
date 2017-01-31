@@ -131,9 +131,11 @@ MapController.prototype.addLastModifiedTimestamp = function(req, response, cb) {
         function readSqlResult(err, result) {
             assert.ifError(err);
 
-            //console.log("XXX result is: " + util.inspect(result));
-            response.layergroupid = response.layergroupid + ":" + lastUpdate;
-            return null;
+            var lastUpdate = result.rows[0].max;
+            console.log("XXX lastUpdate is: " + lastUpdate);
+            lastUpdate = new Date(lastUpdate).toISOString();
+            //response.layergroupid = response.layergroupid + ":" + lastUpdate;
+            return response;
         },
         function finish(err) {
             if ( err ) console.log("XXX LastModified fetch error: " + err)
