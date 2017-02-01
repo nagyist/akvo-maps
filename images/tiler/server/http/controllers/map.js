@@ -132,9 +132,8 @@ MapController.prototype.addLastModifiedTimestamp = function(req, response, cb) {
             assert.ifError(err);
 
             var lastUpdate = result.rows[0].max;
-            console.log("XXX lastUpdate is: " + lastUpdate);
-            lastUpdate = new Date(lastUpdate).toISOString();
-            //response.layergroupid = response.layergroupid + ":" + lastUpdate;
+            lastUpdate = new Date(lastUpdate).getTime();
+            response.layergroupid = response.layergroupid + ":" + lastUpdate;
             return response;
         },
         function finish(err) {
