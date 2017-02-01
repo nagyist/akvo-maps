@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var RedisPool = require('redis-mpool');
 var _ = require('underscore');
 var mapnik = require('mapnik');
+var morgan = require('morgan');
 
 var windshaft = require('windshaft');
 
@@ -231,20 +232,7 @@ function bootstrap(opts) {
     app.enable('jsonp callback');
     app.use(bodyParser.json());
 
-    if (opts.log_format) {
-        var loggerOpts = {
-            // Allowing for unbuffered logging is mainly
-            // used to avoid hanging during unit testing.
-            // TODO: provide an explicit teardown function instead,
-            //       releasing any event handler or timer set by
-            //       this component.
-            buffer: !opts.unbuffered_logging,
-            // optional log format
-            format: opts.log_format
-        };
-
-        app.use(express.logger(loggerOpts));
-    }
+    app.use(morgan('combined'));
 
     return app;
 }

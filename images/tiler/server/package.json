@@ -12,6 +12,7 @@
     "dependencies": {
         "windshaft": "~2.6.2",
         "express": "~4.13.3",
+        "morgan": "~1.7.0",
         "body-parser": "~1.14.0",
         "debug": "~2.2.0",
         "mapnik": "https://s3.amazonaws.com/cartodb-node-binary/mapnik/v1.4.15-cdb10/1.4.15-cdb10.tgz",
