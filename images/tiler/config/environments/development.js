@@ -3,10 +3,7 @@ module.exports.postgres = {
     user: 'akvo',
     password: 'akvo',
     host: 'akvo-postgis',
-    port: 5432,
-    // TODO: drop 'srid' after upgrading to windshaft/cartodb with these PRs
-    // merged: https://github.com/CartoDB/Windshaft/issues/528
-    srid: 4326
+    port: 5432
 };
 module.exports.millstone = {
     cache_basedir: '/tmp/windshaft-dev/millstone'
