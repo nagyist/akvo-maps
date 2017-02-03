@@ -170,7 +170,7 @@ MapController.prototype.create = function(req, res, prepareConfigFn) {
             if (err) {
                 self._app.sendError(res, { errors: [ err.message ] }, self._app.findStatusCode(err), 'LAYERGROUP', err);
             } else {
-                res.send(response, 200);
+                res.status(200).send(response);
             }
         }
     );
