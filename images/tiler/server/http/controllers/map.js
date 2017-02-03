@@ -252,6 +252,18 @@ MapController.prototype.finalizeGetTileOrGrid = function(err, req, res, tile, he
         this._app.sendError(res, { errors: ['' + errMsg] }, this._app.findStatusCode(err), 'TILE', err);
     } else {
         res.set('Cache-Control', 'max-age=31536000');
-        res.send(tile, headers, 200);
+        res.status(200);
+        if (headers) res.set(headers);
+
+        if (!Buffer.isBuffer(tile) && typeof tile === 'object') {
+            if (req.query && req.query.callback) {
+                res.jsonp(tile);
+            } else {
+                res.json(tile);
+            }
+        } else {
+            res.send(tile);
+        }
+
     }
 };
