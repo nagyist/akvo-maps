@@ -248,7 +248,7 @@ function addFilters(app, opts) {
         // Enable CORS access by web browsers if set
         doCORS: function(res, extraHeaders) {
             if (opts.enable_cors) {
-                var baseHeaders = "X-Requested-With, X-Prototype-Version, X-CSRF-Token";
+                var baseHeaders = "X-Requested-With, X-Prototype-Version, X-CSRF-Token, Authorization";
                 if(extraHeaders) {
                     baseHeaders += ", " + extraHeaders;
                 }

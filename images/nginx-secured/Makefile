@@ -7,6 +7,7 @@ build:
 start:
 	docker run --name $(NAME) \
     --link akvo-varnish \
+    --link akvo-tiler \
     -d \
     $(NAME)
 	@cd ../../ && \
@@ -24,6 +25,7 @@ restart:
 start-debug:
 	docker run --name $(NAME) \
     --link akvo-varnish \
+    --link akvo-tiler \
     -d \
     -v $(PWD):/usr/local/openresty/nginx/conf \
     $(NAME)
