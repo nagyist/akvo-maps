@@ -148,6 +148,8 @@ MapController.prototype.create = function(req, res, prepareConfigFn) {
 
     this._app.doCORS(res);
 
+    res.header('X-USER', req.headers['X-USER']);
+
     step(
         function setupParams(){
             self._app.req2params(req, this);
