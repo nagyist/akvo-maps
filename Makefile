@@ -4,11 +4,11 @@ build:
 	$(MAKE) -C images/redis $@
 	$(MAKE) -C images/tiler $@
 	$(MAKE) -C images/varnish $@
-	$(MAKE) -C images/nginx $@
+	$(MAKE) -C images/nginx-secured $@
 	@echo "\nNow make start (or make restart)\n"
 
 stop:
-	$(MAKE) -C images/nginx $@
+	$(MAKE) -C images/nginx-secured $@
 	$(MAKE) -C images/varnish $@
 	$(MAKE) -C images/tiler $@
 	$(MAKE) -C images/redis $@
@@ -19,7 +19,7 @@ start:
 	$(MAKE) -C images/redis $@
 	$(MAKE) -C images/tiler $@
 	$(MAKE) -C images/varnish $@
-	$(MAKE) -C images/nginx $@
+	$(MAKE) -C images/nginx-secured $@
 
 restart:
 	$(MAKE) stop
@@ -37,5 +37,5 @@ redis-logs:
 varnish-logs:
 	docker logs -f akvo-varnish
 
-nginx-logs:
+nginx-secured-logs:
 	docker logs -f akvo-ngnix
